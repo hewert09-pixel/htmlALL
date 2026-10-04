@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Шпаргалка ДЭ — КОД 09.02.06-1-2026</title>
+<style>
+  :root{
+    --bg:#eef2f7;
+    --card:#ffffff;
+    --text:#1e293b;
+    --muted:#64748b;
+    --accent:#2563eb;
+    --accent-2:#0ea5e9;
+    --accent-soft:#e0edff;
+    --border:#e2e8f0;
+    --code-bg:#0f172a;
+    --code-text:#e2e8f0;
+    --code-head:#1e293b;
+    --warn-bg:#fff7ed;
+    --warn-bd:#fdba74;
+    --warn-tx:#9a3412;
+    --note-bg:#f0f9ff;
+    --note-bd:#7dd3fc;
+    --note-tx:#075985;
+    --sidebar:#0b1220;
+    --sidebar-hover:#1e293b;
+    --radius:14px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.65;
+    font-size:15.5px;
+  }
+
+  /* ---------- LAYOUT ---------- */
+  .layout{display:flex;min-height:100vh;}
+
+  /* ---------- SIDEBAR ---------- */
+  .sidebar{
+    width:310px;
+    flex:0 0 310px;
+    background:var(--sidebar);
+    color:#cbd5e1;
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+    padding:26px 20px 60px;
+    scrollbar-width:thin;
+    scrollbar-color:#334155 transparent;
+  }
+  .sidebar::-webkit-scrollbar{width:8px;}
+  .sidebar::-webkit-scrollbar-thumb{background:#334155;border-radius:4px;}
+
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    font-weight:700;font-size:17px;color:#fff;
+    padding-bottom:16px;margin-bottom:18px;
+    border-bottom:1px solid #1e293b;
+    letter-spacing:.2px;
+  }
+  .brand .logo{
+    width:34px;height:34px;border-radius:10px;flex:0 0 34px;
+    background:linear-gradient(135deg,#3b82f6,#06b6d4);
+    display:flex;align-items:center;justify-content:center;
+    font-size:17px;
+  }
+  .brand small{display:block;font-weight:400;font-size:11px;color:#64748b;letter-spacing:.4px;text-transform:uppercase;}
+
+  .nav-title{
+    font-size:11px;text-transform:uppercase;letter-spacing:1.4px;
+    color:#64748b;font-weight:700;
+    margin:22px 0 8px;padding-left:8px;
+  }
+  .sidebar a{
+    display:block;
+    color:#cbd5e1;
+    text-decoration:none;
+    font-size:13.6px;
+    padding:6px 10px;
+    border-radius:8px;
+    border-left:3px solid transparent;
+    transition:.15s;
+    line-height:1.4;
+  }
+  .sidebar a:hover{background:var(--sidebar-hover);color:#fff;}
+  .sidebar a.active{
+    background:linear-gradient(90deg,rgba(37,99,235,.28),transparent);
+    border-left-color:var(--accent-2);
+    color:#fff;font-weight:600;
+  }
+
+  /* ---------- MAIN ---------- */
+  main{
+    flex:1 1 auto;
+    min-width:0;
+    padding:44px 52px 100px;
+    max-width:1180px;
+  }
+
+  .hero{
+    background:linear-gradient(135deg,#1d4ed8 0%,#0ea5e9 55%,#06b6d4 100%);
+    color:#fff;
+    border-radius:20px;
+    padding:38px 40px;
+    margin-bottom:40px;
+    box-shadow:0 18px 40px -18px rgba(29,78,216,.6);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;right:-70px;top:-70px;
+    width:260px;height:260px;border-radius:50%;
+    background:rgba(255,255,255,.09);
+  }
+  .hero::before{
+    content:"";
+    position:absolute;right:60px;bottom:-100px;
+    width:200px;height:200px;border-radius:50%;
+    background:rgba(255,255,255,.07);
+  }
+  .hero h1{margin:0 0 10px;font-size:31px;line-height:1.25;letter-spacing:-.4px;position:relative;}
+  .hero p{margin:0;opacity:.94;font-size:15.5px;max-width:760px;position:relative;}
+  .hero .chips{margin-top:20px;display:flex;flex-wrap:wrap;gap:9px;position:relative;}
+  .chip{
+    background:rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.3);
+    padding:5px 13px;border-radius:999px;
+    font-size:12.5px;font-weight:600;letter-spacing:.2px;
+    backdrop-filter:blur(4px);
+  }
+
+  /* ---------- MODULE SECTIONS ---------- */
+  .module{
+    margin:0 0 52px;
+    scroll-margin-top:24px;
+  }
+  .module-head{
+    display:flex;align-items:center;gap:14px;
+    margin-bottom:22px;
+    padding-bottom:14px;
+    border-bottom:2px solid var(--border);
+  }
+  .module-num{
+    flex:0 0 auto;
+    background:linear-gradient(135deg,#2563eb,#0ea5e9);
+    color:#fff;
+    font-weight:800;
+    font-size:13px;
+    letter-spacing:.8px;
+    padding:7px 14px;
+    border-radius:10px;
+    box-shadow:0 6px 14px -6px rgba(37,99,235,.7);
+  }
+  .module-head h2{
+    margin:0;
+    font-size:23px;
+    letter-spacing:-.3px;
+    color:#0f172a;
+  }
+
+  /* ---------- MACHINE / TASK CARD ---------- */
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:26px 28px;
+    margin-bottom:24px;
+    box-shadow:0 2px 10px -6px rgba(15,23,42,.14);
+    scroll-margin-top:20px;
+  }
+  .card > h3{
+    margin:0 0 6px;
+    font-size:18.5px;
+    color:#0f172a;
+    display:flex;align-items:center;gap:10px;
+    letter-spacing:-.2px;
+  }
+  .card > h3 .ico{font-size:19px;line-height:1;}
+  .card .sub{
+    color:var(--muted);
+    font-size:13.5px;
+    margin:0 0 16px;
+  }
+
+  .step{
+    margin-top:22px;
+    padding-top:18px;
+    border-top:1px dashed var(--border);
+  }
+  .step:first-of-type{border-top:none;padding-top:6px;}
+  .step h4{
+    margin:0 0 10px;
+    font-size:15.5px;
+    color:#1d4ed8;
+    display:flex;align-items:center;gap:8px;
+    font-weight:700;
+  }
+  .step h4::before{
+    content:"";
+    width:7px;height:7px;border-radius:50%;
+    background:var(--accent-2);
+    flex:0 0 7px;
+    box-shadow:0 0 0 4px rgba(14,165,233,.15);
+  }
+
+  /* ---------- CODE BLOCKS ---------- */
+  .codeblock{
+    border-radius:12px;
+    overflow:hidden;
+    margin:12px 0 0;
+    background:var(--code-bg);
+    box-shadow:0 8px 22px -14px rgba(15,23,42,.9);
+    border:1px solid #1e293b;
+  }
+  .codeblock__head{
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--code-head);
+    padding:8px 14px;
+    border-bottom:1px solid #0b1220;
+  }
+  .lang{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+    color:#7dd3fc;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  .dots{display:flex;gap:6px;}
+  .dots i{
+    width:9px;height:9px;border-radius:50%;display:block;
+    background:#475569;
+  }
+  .dots i:nth-child(1){background:#f87171;}
+  .dots i:nth-child(2){background:#fbbf24;}
+  .dots i:nth-child(3){background:#34d399;}
+
+  pre{
+    margin:0;
+    padding:16px 18px;
+    overflow-x:auto;
+    background:transparent;
+  }
+  pre code{
+    font-family:ui-monospace,SFMono-Regular,"Cascadia Code",Menlo,Consolas,"Liberation Mono",monospace;
+    font-size:13.2px;
+    line-height:1.72;
+    color:var(--code-text);
+    white-space:pre;
+    tab-size:2;
+  }
+  pre::-webkit-scrollbar{height:9px;}
+  pre::-webkit-scrollbar-thumb{background:#334155;border-radius:4px;}
+
+  .code-note{
+    display:flex;align-items:center;gap:7px;
+    font-size:12.4px;
+    color:var(--warn-tx);
+    background:var(--warn-bg);
+    border:1px solid var(--warn-bd);
+    border-left:4px solid var(--warn-bd);
+    padding:7px 13px;
+    border-radius:0 0 10px 10px;
+    margin:-12px 0 0;
+    font-weight:600;
+    letter-spacing:.1px;
+  }
+  .code-note::before{content:"⚠";font-size:13.5px;}
+
+  /* ---------- EXPLANATION / NOTE ---------- */
+  .note{
+    background:var(--note-bg);
+    border:1px solid var(--note-bd);
+    border-left:4px solid var(--accent-2);
+    border-radius:0 10px 10px 0;
+    padding:12px 16px;
+    margin-top:12px;
+    font-size:14.2px;
+    color:#0f2f45;
+  }
+  .note strong{color:var(--note-tx);}
+  .note .label{
+    display:inline-block;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--note-tx);
+    margin-right:6px;
+  }
+  .note ul{margin:8px 0 0;padding-left:20px;}
+  .note li{margin-bottom:4px;}
+
+  /* ---------- LISTS ---------- */
+  .card ul, .card ol{margin:8px 0;padding-left:22px;}
+  .card li{margin-bottom:5px;}
+  .card li::marker{color:var(--accent);font-weight:700;}
+
+  /* ---------- INLINE CODE ---------- */
+  code.inline{
+    background:#eef2f7;
+    border:1px solid #dbe3ec;
+    color:#0f172a;
+    padding:1.5px 6px;
+    border-radius:6px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:12.8px;
+    white-space:nowrap;
+  }
+
+  /* ---------- TABLE ---------- */
+  .table-wrap{overflow-x:auto;margin-top:12px;border-radius:10px;border:1px solid var(--border);}
+  table{border-collapse:collapse;width:100%;font-size:13.8px;background:#fff;}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);}
+  th{background:#f1f5f9;font-weight:700;color:#0f172a;font-size:12.6px;letter-spacing:.4px;text-transform:uppercase;}
+  tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:#f8fafc;}
+
+  /* ---------- BADGES ---------- */
+  .badge{
+    display:inline-block;
+    font-size:11.5px;
+    font-weight:700;
+    padding:3px 10px;
+    border-radius:999px;
+    letter-spacing:.3px;
+    vertical-align:middle;
+  }
+  .badge.blue{background:var(--accent-soft);color:#1d4ed8;}
+  .badge.green{background:#dcfce7;color:#166534;}
+  .badge.amber{background:#fef3c7;color:#92400e;}
+  .badge.violet{background:#ede9fe;color:#5b21b6;}
+
+  /* ---------- BACK TO TOP ---------- */
+  .to-top{
+    position:fixed;
+    right:26px;bottom:26px;
+    width:46px;height:46px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#2563eb,#0ea5e9);
+    color:#fff;
+    border:none;
+    cursor:pointer;
+    font-size:19px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 24px -8px rgba(37,99,235,.85);
+    opacity:0;pointer-events:none;
+    transition:.25s;
+    z-index:50;
+  }
+  .to-top.show{opacity:1;pointer-events:auto;}
+  .to-top:hover{transform:translateY(-3px);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:1024px){
+    .sidebar{width:250px;flex:0 0 250px;padding:20px 14px 50px;}
+    main{padding:32px 26px 80px;}
+    .hero{padding:30px 26px;}
+    .hero h1{font-size:25px;}
+  }
+  @media (max-width:768px){
+    .layout{flex-direction:column;}
+    .sidebar{
+      position:relative;width:100%;flex:none;height:auto;
+      max-height:300px;padding:18px 16px 24px;
+    }
+    .nav-title{margin:14px 0 6px;}
+    main{padding:22px 16px 70px;}
+    .hero{padding:24px 20px;border-radius:16px;}
+    .hero h1{font-size:21px;}
+    .card{padding:20px 18px;}
+    pre code{font-size:12.3px;}
+  }
+
+  @media print{
+    .sidebar,.to-top{display:none;}
+    main{padding:0;max-width:none;}
+    .card{break-inside:avoid;box-shadow:none;}
+    .hero{box-shadow:none;background:#1d4ed8 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">🛠</div>
+      <div>
+        Шпаргалка ДЭ
+        <small>КОД 09.02.06-1-2026</small>
+      </div>
+    </div>
+
+    <div class="nav-title">Модуль 1 — Инфраструктура</div>
+    <a href="#m1-isp">Машина ISP (Провайдер)</a>
+    <a href="#m1-hq-rtr">Машина HQ-RTR</a>
+    <a href="#m1-br-rtr">Машина BR-RTR</a>
+    <a href="#m1-hq-sw">Машина HQ-SW</a>
+    <a href="#m1-hq-srv">Машина HQ-SRV</a>
+    <a href="#m1-cli">HQ-CLI и BR-CLI</a>
+    <a href="#m1-br-fw">Машина BR-FW (Ideco)</a>
+
+    <div class="nav-title">Модуль 2 — Сервисы</div>
+    <a href="#m2-t12">12. Samba DC (BR-SRV)</a>
+    <a href="#m2-t13">13. RAID-0 (HQ-SRV)</a>
+    <a href="#m2-t14">14. NFS (HQ-SRV)</a>
+    <a href="#m2-t15">15. Chrony (ISP)</a>
+    <a href="#m2-t16">16. Ansible (BR-SRV)</a>
+    <a href="#m2-t17">17. Docker (BR-SRV)</a>
+    <a href="#m2-t18">18. Apache + MariaDB</a>
+    <a href="#m2-t19">19. DNAT</a>
+    <a href="#m2-t20">20–21. Nginx + Basic Auth</a>
+    <a href="#m2-t22">22. Яндекс Браузер</a>
+
+    <div class="nav-title">Модуль 3 — Продвинутое</div>
+    <a href="#m3-1">1. Импорт пользователей</a>
+    <a href="#m3-2">2. CA ГОСТ и HTTPS</a>
+    <a href="#m3-3">3. IPsec туннель</a>
+    <a href="#m3-4">4. Межсетевой экран</a>
+    <a href="#m3-5">5. Принт-сервер CUPS</a>
+    <a href="#m3-6">6. Syslog + ротация</a>
+    <a href="#m3-7">7. Мониторинг Zabbix</a>
+    <a href="#m3-8">8. Ansible Playbook</a>
+    <a href="#m3-9">9. Защита SSH через PAM</a>
+    <a href="#m3-10">10. Кибер Бэкап</a>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main>
+
+    <header class="hero">
+      <h1>Шпаргалка по подготовке к демонстрационному экзамену</h1>
+      <p>Структурированный конспект по трём модулям: настройка инфраструктуры, сервисов и продвинутых решений на базе ALT Linux, EcoRouter и сопутствующего ПО.</p>
+      <div class="chips">
+        <span class="chip">КОД 09.02.06-1-2026</span>
+        <span class="chip">ALT Linux</span>
+        <span class="chip">EcoRouterOS</span>
+        <span class="chip">Samba DC</span>
+        <span class="chip">Nginx / Docker</span>
+      </div>
+    </header>
+
+    <!-- =========================================================
+         МОДУЛЬ 1
+    ========================================================== -->
+    <section class="module" id="module1">
+      <div class="module-head">
+        <span class="module-num">МОДУЛЬ 1</span>
+        <h2>Базовая инфраструктура и маршрутизация</h2>
+      </div>
+
+      <!-- ---------- ISP ---------- -->
+      <article class="card" id="m1-isp">
+        <h3><span class="ico">🌐</span> Машина ISP (Провайдер)</h3>
+        <p class="sub">Настройка доменного имени, интерфейсов, NAT и часового пояса.</p>
+
+        <div class="step">
+          <h4>Настройка доменного имени</h4>
+
+          <p>Проверка текущего имени:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>hostname</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Команда показывает текущее имя машины в сети. На скриншоте видно стандартное сгенерированное имя <code class="inline">reuug4wfsudlu</code>.
+          </div>
+
+          <p style="margin-top:16px;">Установка правильного имени:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>hostnamectl set-hostname isp.au-team.irpo</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Утилита <code class="inline">hostnamectl</code> навсегда меняет имя машины на требуемое по заданию (<code class="inline">isp.au-team.irpo</code>). При повторном вызове <code class="inline">hostname</code> система подтвердит изменения.
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>Настройка интерфейсов</h4>
+
+          <p>Проверка сетевых адаптеров:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>ip a</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Выводит список всех сетевых интерфейсов и их IP-адресов. Здесь мы видим:
+            <ul>
+              <li><code class="inline">ens3</code> — смотрит во внешнюю сеть провайдера и получает IP динамически по DHCP (<code class="inline">10.0.137.220</code>).</li>
+              <li><code class="inline">ens4</code> и <code class="inline">ens5</code> — статические адреса <code class="inline">172.16.1.1</code> и <code class="inline">172.16.2.1</code> для связи с маршрутизаторами главного офиса (HQ) и филиала (BR).</li>
+              <li>Настройка не требуется, так как все адреса уже на месте.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>Настройка динамической трансляции адресов (NAT / MASQUERADE)</h4>
+
+          <p>Проверка включения пересылки пакетов (Routing):</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>vim /etc/net/sysctl.conf</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Мы смотрим в конфигурационный файл ядра. Строка <code class="inline">net.ipv4.ip_forward = 1</code> означает, что Linux работает в режиме маршрутизатора и умеет пересылать пакеты между разными интерфейсами. Настройка не требуется.
+          </div>
+
+          <p style="margin-top:16px;">Проверка текущих правил файрвола:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>iptables -t nat -L</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Команда выводит таблицу <code class="inline">nat</code> (трансляции адресов). На скриншоте видно, что цепочки пустые — интернет на внутренние машины ещё не раздаётся.
+          </div>
+
+          <p style="margin-top:16px;">Включение NAT (Маскарадинга):</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>iptables -t nat -A POSTROUTING -o ens3 -j MASQUERADE
+iptables-save &gt;&gt; /etc/sysconfig/iptables
+systemctl enable --now iptables</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            <ol>
+              <li>Первая команда заставляет ISP «прятать» за своим адресом <code class="inline">ens3</code> (внешним) все пакеты, идущие из внутренних сетей в интернет.</li>
+              <li>Вторая команда сохраняет это правило в файл, чтобы оно не исчезло после перезагрузки.</li>
+              <li>Третья команда добавляет службу iptables в автозагрузку и запускает её прямо сейчас.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>Настройка часового пояса</h4>
+
+          <p>Проверка времени:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>timedatectl</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Показывает системное время и часовой пояс. Видим, что установлен <code class="inline">Europe/Moscow</code> (MSK, +0300), изменения не нужны.
+          </div>
+        </div>
+      </article>
+
+      <!-- ---------- HQ-RTR ---------- -->
+      <article class="card" id="m1-hq-rtr">
+        <h3><span class="ico">🛰</span> Машина HQ-RTR <span class="badge blue">Маршрутизатор главного офиса</span></h3>
+        <p class="sub">Имя, IP, пользователи, GRE-туннель, статические маршруты, OSPF, NAT, время.</p>
+
+        <div class="step">
+          <h4>Настройка доменного имени</h4>
+
+          <p>Вход и проверка:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>ecorouter&gt;en
+ecorouter#sh hostname</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            <code class="inline">en</code> (enable) переводит маршрутизатор (работающий на базе EcoRouter) в привилегированный режим. <code class="inline">sh hostname</code> показывает стандартное имя <code class="inline">ecorouter</code>.
+          </div>
+
+          <p style="margin-top:16px;">Конфигурирование:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>en
+conf t
+hostname HQ-RTR
+ip domain-name au-team.irpo
+end
+write memory</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Заходим в режим конфигурации (<code class="inline">conf t</code>), меняем имя устройства на <code class="inline">HQ-RTR</code> и задаём доменную зону организации. <code class="inline">end</code> возвращает нас назад, а <code class="inline">write memory</code> (или <code class="inline">wr</code>) сохраняет конфигурацию в энергонезависимую память.
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>Настройка IP-адресов</h4>
+
+          <p>Проверка интерфейсов:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>sh ip interface brief</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Выводит краткую таблицу всех интерфейсов, их IP и статус (<code class="inline">up</code> — включён, <code class="inline">down</code> — выключен). Видим настроенные VLAN (<code class="inline">vl100</code>, <code class="inline">vl200</code>, <code class="inline">vl999</code>) и стык с провайдером (<code class="inline">isp</code>). Настройка не требуется.
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>Настройка пользователей</h4>
+
+          <p>Проверка локальной базы данных:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>sh users localdb</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Показывает учётные записи, созданные на самом роутере для администрирования. Администратор <code class="inline">net_admin</code> с правами admin присутствует. Настройка не требуется.
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>Настройка GRE-туннеля (связь с филиалом)</h4>
+
+          <p>Проверка туннеля:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>sh interface tunnel.0</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Если команда ничего не возвращает, значит, туннельного интерфейса не существует.
+          </div>
+
+          <p style="margin-top:16px;">Создание и настройка туннеля:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>en
+conf t
+interface tunnel.0
+ip address 10.10.10.1/30
+ip tunnel 172.16.1.2 172.16.2.2 mode gre
+end
+write memory</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Мы создаём виртуальный туннель <code class="inline">tunnel.0</code>. Назначаем ему внутренний IP (<code class="inline">10.10.10.1</code>). Командой <code class="inline">ip tunnel</code> мы связываем его с реальными «белыми» IP-адресами: наш внешний IP (<code class="inline">172.16.1.2</code>) и IP роутера филиала (<code class="inline">172.16.2.2</code>), используя режим инкапсуляции GRE.
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>Настройка статической маршрутизации (маршрут по умолчанию)</h4>
+
+          <p>Проверка таблицы маршрутов:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>sh ip route</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Роутер знает только о тех сетях, к которым подключён напрямую (буква <strong>C</strong> — Connected). Строка <em>Gateway of last resort is not set</em> означает, что роутер не знает, куда отправлять пакеты для интернета.
+          </div>
+
+          <p style="margin-top:16px;">Добавление статического маршрута:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>conf t
+ip route 0.0.0.0 0.0.0.0 172.16.1.1
+end
+write memory</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Команда говорит роутеру: «Если адрес назначения тебе неизвестен (<code class="inline">0.0.0.0 0.0.0.0</code>), отправляй этот пакет на IP-адрес провайдера (<code class="inline">172.16.1.1</code>)». В таблице маршрутизации появится запись <code class="inline">S*</code> (статический default-маршрут).
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>Настройка OSPF (динамическая маршрутизация между HQ и BR)</h4>
+
+          <p>Настройка OSPF:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>en
+conf t
+router ospf 0
+network 10.10.100.0/27 area 0
+network 10.10.200.0/28 area 0
+network 10.10.30.0/29 area 0
+network 10.10.10.0/30 area 0
+passive-interface default
+no passive-interface tunnel.0
+area 0 authentication
+exit
+interface tunnel.0
+ip ospf authentication message-digest
+ip ospf message-digest-key 1 md5 P@ssw0rd
+end
+write memory</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            <ol>
+              <li><code class="inline">router ospf 0</code> — запускает процесс динамической маршрутизации OSPF.</li>
+              <li>Команды <code class="inline">network ... area 0</code> объявляют наши локальные подсети и сеть туннеля в «Зону 0», чтобы роутер филиала узнал о них.</li>
+              <li><code class="inline">passive-interface default</code> отключает рассылку лишних служебных OSPF-пакетов во все пользовательские сети (безопасность и экономия трафика).</li>
+              <li><code class="inline">no passive-interface tunnel.0</code> разрешает OSPF работать через созданный GRE-туннель.</li>
+              <li>Остальные команды включают безопасную авторизацию (шифрование MD5 с паролем <code class="inline">P@ssw0rd</code>) на туннеле, чтобы никто посторонний не мог подкинуть нам ложные маршруты.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>Настройка NAT (доступ локальной сети в интернет)</h4>
+
+          <p>Привязка зон и создание пула:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>en
+conf t
+interface isp
+ip nat outside
+exit
+interface vl100 ... (и для vl200, vl999)
+ip nat inside
+exit
+ip nat pool HQ 10.10.0.1-10.10.200.254
+ip nat source dynamic inside-to-outside pool HQ overload interface isp
+end
+write memory</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            <ol>
+              <li>Указываем роутеру, где внешняя сеть (<code class="inline">ip nat outside</code> на интерфейсе к провайдеру) и где наши внутренние сети (<code class="inline">ip nat inside</code> на интерфейсах VLAN).</li>
+              <li>Создаём пул адресов и включаем динамический NAT с перегрузкой (<code class="inline">overload</code>), чтобы все компьютеры из внутренних VLAN могли выходить в интернет через один внешний адрес интерфейса <code class="inline">isp</code>.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>Настройка часового пояса</h4>
+
+          <p>Установка сдвига времени:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>conf t
+ntp timezone utc+3</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Настраивает роутер на московское время (+3 часа относительно UTC).
+          </div>
+        </div>
+      </article>
+
+      <!-- ---------- BR-RTR ---------- -->
+      <article class="card" id="m1-br-rtr">
+        <h3><span class="ico">🏢</span> Машина BR-RTR <span class="badge violet">Маршрутизатор филиала</span></h3>
+        <p class="sub">Полностью зеркальные настройки относительно HQ-RTR, но со своими IP-адресами.</p>
+
+        <div class="note">
+          <span class="label">Пояснение</span>
+          Все шаги на BR-RTR полностью зеркальны настройкам HQ-RTR, но со своими IP-адресами:
+        </div>
+
+        <ol>
+          <li><strong>Доменное имя:</strong> меняется на <code class="inline">BR-RTR</code>.</li>
+          <li><strong>Туннель GRE:</strong> настраивается встречно. Наш адрес в туннеле <code class="inline">10.10.10.2</code>, адрес назначения <code class="inline">172.16.1.2</code> (роутер HQ).</li>
+          <li><strong>Маршрут по умолчанию:</strong> указывает на шлюз провайдера для филиала: <code class="inline">ip route 0.0.0.0 0.0.0.0 172.16.2.1</code>.</li>
+          <li><strong>OSPF:</strong> запускается OSPF, в <code class="inline">network</code> добавляются подсети филиала, а через команду <code class="inline">sh ip ospf neighbor</code> мы проверяем, что роутеры успешно увидели друг друга через туннель (<em>State: Full</em>).</li>
+        </ol>
+      </article>
+
+      <!-- ---------- HQ-SW ---------- -->
+      <article class="card" id="m1-hq-sw">
+        <h3><span class="ico">🔀</span> Машина HQ-SW <span class="badge green">Коммутатор главного офиса</span></h3>
+        <p class="sub">Работает на Linux с использованием Open vSwitch (OVS).</p>
+
+        <ul>
+          <li><strong>Установка имени:</strong> <code class="inline">hostnamectl set-hostname hq-sw.au-team.irpo</code>.</li>
+        </ul>
+
+        <p style="margin-top:14px;">Проверка конфигурации VLAN:</p>
+        <div class="codeblock">
+          <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <pre><code>ovs-vsctl show</code></pre>
+        </div>
+        <p class="code-note">Используйте код с осторожностью.</p>
+
+        <div class="note">
+          <span class="label">Пояснение</span>
+          Эта команда выводит схему виртуального коммутатора OVS. На скриншоте видно, что порты уже распределены по VLAN:
+          <ul>
+            <li><code class="inline">ens4</code> назначен во VLAN 100 (сеть серверов).</li>
+            <li><code class="inline">ens5</code> назначен во VLAN 200 (сеть пользователей).</li>
+            <li><code class="inline">ens3</code> работает как Trunk-порт (пропускает тегированные пакеты 100, 200, 999 до роутера HQ-RTR).</li>
+            <li>Настройка не требуется, всё работает корректно.</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- ---------- HQ-SRV ---------- -->
+      <article class="card" id="m1-hq-srv">
+        <h3><span class="ico">🗄</span> Машина HQ-SRV <span class="badge blue">Сервер главного офиса</span></h3>
+        <p class="sub">Сеть, sudo, SSH, BIND9.</p>
+
+        <div class="step">
+          <h4>Настройка интерфейсов (полноценный статический IP в ALT Linux)</h4>
+
+          <div class="note" style="margin-bottom:6px;">
+            <span class="label">Пояснение</span>
+            Поскольку графического интерфейса нет, конфигурация сети выполняется через файлы системы <code class="inline">etcnet</code>.
+          </div>
+
+          <ol>
+            <li>
+              <strong>Настройка режима работы</strong> (<code class="inline">/etc/net/ifaces/ens3/options</code>):<br>
+              Задаётся <code class="inline">BOOTPROTO=static</code>, что указывает системе: адрес нужно брать не из DHCP, а настраивать вручную.
+            </li>
+            <li>
+              <strong>Задание IP-адреса</strong> (<code class="inline">/etc/net/ifaces/ens3/ipv4address</code>):<br>
+              Вносим <code class="inline">10.10.100.2/27</code>. Это постоянный IP-адрес нашего сервера в сети серверов.
+            </li>
+            <li>
+              <strong>Задание основного шлюза</strong> (<code class="inline">/etc/net/ifaces/ens3/ipv4route</code>):<br>
+              Прописываем <code class="inline">default via 10.10.100.1</code>. Пакеты во внешние сети сервер будет отправлять на роутер HQ-RTR.
+            </li>
+            <li>
+              <strong>Настройка DNS</strong> (<code class="inline">/etc/net/ifaces/ens3/resolv.conf</code>):<br>
+              Прописываем <code class="inline">search au-team.irpo</code> и внешние/внутренние DNS для разрешения имён сайтов.
+            </li>
+            <li>
+              <strong>Применение настроек:</strong>
+              <div class="codeblock">
+                <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+                <pre><code>systemctl restart network</code></pre>
+              </div>
+              <p class="code-note">Используйте код с осторожностью.</p>
+            </li>
+          </ol>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Сетевая служба перезапускается и считывает новые данные из файлов. Проверка по <code class="inline">ip a</code> подтверждает успешную настройку.
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>Настройка прав администратора (sudo)</h4>
+
+          <ul>
+            <li><strong>Проверка:</strong> командой <code class="inline">visudo</code> или просмотром файлов мы видим, что группа администраторов <code class="inline">wheel</code> ограничена.</li>
+            <li>
+              <strong>Редактирование:</strong>
+              <div class="codeblock">
+                <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+                <pre><code>vim +123 /etc/sudoers</code></pre>
+              </div>
+              <p class="code-note">Используйте код с осторожностью.</p>
+            </li>
+          </ul>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Открываем файл конфигурации прав sudo. Раскомментировав строку <code class="inline">WHEEL_USERS ALL=(ALL:ALL) NOPASSWD: ALL</code>, мы разрешаем пользователям из группы <code class="inline">wheel</code> (например, <code class="inline">sshuser</code>) выполнять любые системные команды через sudo без постоянного ввода пароля.
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>Настройка безопасности SSH (удалённый доступ)</h4>
+
+          <div class="note" style="margin-bottom:8px;">
+            <span class="label">Пояснение</span>
+            По заданию нужно ограничить попытки входа и установить приветственный баннер при подключении.
+          </div>
+
+          <ol>
+            <li><strong>Включение баннера в конфигурации:</strong> в файле <code class="inline">/etc/openssh/sshd_config</code> раскомментируют строку <code class="inline">Banner /etc/openssh/banner</code>. Это указывает службе SSH при подключении пользователя считывать текст из определённого файла.</li>
+            <li><strong>Создание текста баннера:</strong> в файл <code class="inline">/etc/openssh/banner</code> пишется текст <em>Authorized access only.</em> (Доступ только для авторизованных лиц).</li>
+            <li><strong>Перезапуск службы:</strong> <code class="inline">systemctl restart sshd</code> применяет новые правила безопасности.</li>
+          </ol>
+        </div>
+
+        <div class="step">
+          <h4>Настройка DNS-сервера (BIND9)</h4>
+
+          <div class="note" style="margin-bottom:8px;">
+            <span class="label">Пояснение</span>
+            Этот сервер будет отвечать за преобразование доменных имён в IP-адреса внутри корпоративной сети.
+          </div>
+
+          <ol>
+            <li><strong>Файл options.conf:</strong> настраивается строка <code class="inline">listen-on { 10.10.100.2; };</code> (сервер слушает запросы на своём сетевом IP), добавляется <code class="inline">forwarders { 77.88.8.8; };</code> (если сервер не знает доменное имя, например google.com, он перенаправит запрос на публичный DNS Яндекса).</li>
+            <li><strong>Файлы зон</strong> (<code class="inline">au-team.irpo.zone</code> и <code class="inline">10.10.in-addr.arpa</code>): исправляются ошибки в SOA-записях (заменяется адрес почты администратора по умолчанию на <code class="inline">root.au-team.irpo.</code>). Эти файлы содержат жёстко прописанные соответствия имён (например, <code class="inline">hq-rtr IN A 172.16.1.2</code>).</li>
+            <li><strong>Запуск:</strong> <code class="inline">systemctl enable --now bind.service</code> запускает DNS-сервер и добавляет его в автозагрузку.</li>
+          </ol>
+        </div>
+      </article>
+
+      <!-- ---------- CLI ---------- -->
+      <article class="card" id="m1-cli">
+        <h3><span class="ico">💻</span> Машины HQ-CLI и BR-CLI <span class="badge amber">Рабочие станции</span></h3>
+
+        <div class="note">
+          <span class="label">HQ-CLI</span>
+          На скриншоте видно, что машина успешно получила сетевые настройки автоматически по DHCP от роутера (<code class="inline">10.10.200.2/28</code> с пометкой <em>dynamic</em>). Через <code class="inline">hostnamectl</code> задаётся имя хоста.
+        </div>
+
+        <div class="note" style="margin-top:12px;">
+          <span class="label">BR-CLI</span>
+          Здесь автоматическая настройка сети не сработала, интерфейс <code class="inline">ens3</code> пустой. Администратор переходит в режим суперпользователя (<code class="inline">su -</code>), переименовывает ошибочную папку интерфейса <code class="inline">ens18</code> в <code class="inline">ens3</code> и вручную прописывает статический IP <code class="inline">10.20.30.2/29</code> и шлюз филиала <code class="inline">10.20.30.1</code> по аналогии с сервером.
+        </div>
+      </article>
+
+      <!-- ---------- BR-FW ---------- -->
+      <article class="card" id="m1-br-fw">
+        <h3><span class="ico">🛡</span> Машина BR-FW <span class="badge violet">Межсетевой экран филиала Ideco</span></h3>
+        <p class="sub">Настройка выполняется удалённо через веб-интерфейс.</p>
+
+        <div class="note">
+          <span class="label">Пояснение</span>
+          Поскольку Ideco UTM — это специализированный шлюз безопасности, его детальная настройка выполняется удалённо через удобный веб-интерфейс (браузер) с рабочей станции филиала BR-CLI.
+        </div>
+
+        <ul>
+          <li>Администратор открывает браузер, вводит IP внутренний шлюза <code class="inline">10.20.30.1:8443</code> и заходит под дефолтными учётными данными.</li>
+          <li>В веб-панели меняется имя устройства на <code class="inline">br-fw.au-team.irpo</code> и настраивается интеграция в общую сеть через протокол OSPF, чтобы шлюз безопасности автоматически обменивался маршрутами с роутером филиала.</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- =========================================================
+         МОДУЛЬ 2
+    ========================================================== -->
+    <section class="module" id="module2">
+      <div class="module-head">
+        <span class="module-num">МОДУЛЬ 2</span>
+        <h2>Сервисы и прикладные решения</h2>
+      </div>
+
+      <!-- ---------- T12 ---------- -->
+      <article class="card" id="m2-t12">
+        <h3><span class="ico">🗂</span> Задание 12. Контроллер домена Samba DC <span class="badge blue">BR-SRV</span></h3>
+
+        <div class="step">
+          <h4>1. Инициализация Samba DC (au-team.irpo)</h4>
+          <p>Перед настройкой убедитесь, что имя хоста настроено верно:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>hostnamectl set-hostname br-srv.au-team.irpo</code></pre>
+          </div>
+
+          <p style="margin-top:14px;">Удаляем стандартный конфиг (если есть) и запускаем интерактивное или автоматическое развёртывание:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>rm -f /etc/samba/smb.conf
+samba-tool domain provision --use-rfc2307 --realm=AU-TEAM.IRPO --domain=AU-TEAM --server-role=dc --dns-backend=SAMBA_INTERNAL --adminpass="P@ssw0rd123"
+systemctl enable --now samba</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+
+        <div class="step">
+          <h4>2. Ввод в домен машин HQ-CLI и BR-CLI</h4>
+          <p>Выполняется на самих клиентах (HQ-CLI / BR-CLI) через <code class="inline">system-auth</code> или <code class="inline">adcli</code>:</p>
+
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code># Если команда не сработала:
+apt-get install task-auth-ad-sssd
+
+# Синтаксис команды ввода в домен:
+system-auth write ad &lt;имя_домена&gt; &lt;имя_компьютера&gt; &lt;рабочая_группа&gt; '&lt;администратор_домена&gt;' '&lt;пароль&gt;'
+
+# Пример заполнения:
+system-auth write ad au-team.irpo hq-cli AU-TEAM 'administrator' 'P@ssw0rd'
+
+# Настройка DNS на контроллер домена в /etc/resolv.conf:
+nameserver &lt;IP_BR-SRV&gt;
+
+net ads join -U Administrator%"P@ssw0rd123"
+
+# Или средствами ALT Linux:
+control system-auth ad AU-TEAM.IRPO &lt;IP_BR-SRV&gt;</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+
+        <div class="step">
+          <h4>3. Автоматизация создания групп и пользователей (офисы HQ и BR)</h4>
+          <p>Запустите скрипт на BR-SRV для массового создания объектов в Active Directory:</p>
+
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code># Создание групп
+samba-tool group add hq
+samba-tool group add br
+
+# Создание 5 пользователей hquser и добавление в группу hq
+for i in {1..5}; do
+  samba-tool user create hquser$i "P@ssw0rd123" --use-username-as-samantha
+  samba-tool group addmembers hq hquser$i
+done
+
+# Создание 5 пользователей bruser и добавление в группу br
+for i in {1..5}; do
+  samba-tool user create bruser$i "P@ssw0rd123" --use-username-as-samantha
+  samba-tool group addmembers br bruser$i
+done</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+
+        <div class="step">
+          <h4>4. Ограничение прав входа (локальная аутентификация)</h4>
+          <ul>
+            <li>На <strong>HQ-CLI</strong>: разрешить вход только группе <code class="inline">hq</code>.</li>
+            <li>На <strong>BR-CLI</strong>: разрешить вход только группе <code class="inline">br</code>.</li>
+          </ul>
+
+          <p style="margin-top:12px;">Редактируем <code class="inline">/etc/security/access.conf</code>:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code># На HQ-CLI:
++ : @hq : ALL
++ : root : ALL
+- : ALL : ALL
+
+# На BR-CLI:
++ : @br : ALL
++ : root : ALL
+- : ALL : ALL</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Убедитесь, что в <code class="inline">/etc/pam.d/system-auth</code> включена строка <code class="inline">account required pam_access.so</code>.
+          </div>
+        </div>
+
+        <div class="step">
+          <h4>5. Ограничение Sudo для группы hq</h4>
+          <p>На машине HQ-CLI создаём файл ограничений <code class="inline">/etc/sudoers.d/hq_restrictions</code>:</p>
+
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code># Разрешаем запуск только cat, grep, id без ввода пароля (или с паролем, убрав NOPASSWD)
+%hq ALL=(ALL:ALL) NOPASSWD: /bin/cat, /bin/grep, /usr/bin/id</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+      </article>
+
+      <!-- ---------- T13 ---------- -->
+      <article class="card" id="m2-t13">
+        <h3><span class="ico">💾</span> Задание 13. Фильтр-хранилище RAID-0 <span class="badge blue">HQ-SRV</span></h3>
+
+        <div class="codeblock">
+          <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <pre><code># Установка утилиты управления (если отсутствует)
+apt-get update &amp;&amp; apt-get install -y mdadm
+
+# Создание RAID-0 из двух дисков по 1 Гб (например, /dev/sdb и /dev/sdc)
+mdadm --create --verbose /dev/md0 --level=0 --raid-devices=2 /dev/sdb /dev/sdc
+
+# Сохранение конфигурации массива
+mkdir -p /etc/mdadm
+mdadm --detail --scan &gt;&gt; /etc/mdadm.conf
+
+# Создание файловой системы ext4
+mkfs.ext4 /dev/md0
+
+# Автомонтирование в /raid
+mkdir -p /raid
+echo "/dev/md0 /raid ext4 defaults 0 2" &gt;&gt; /etc/fstab
+mount -a</code></pre>
+        </div>
+        <p class="code-note">Используйте код с осторожностью.</p>
+      </article>
+
+      <!-- ---------- T14 ---------- -->
+      <article class="card" id="m2-t14">
+        <h3><span class="ico">📂</span> Задание 14. Сервер NFS <span class="badge blue">HQ-SRV</span></h3>
+
+        <div class="step">
+          <h4>На сервере (HQ-SRV)</h4>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>apt-get install -y nfs-utils
+mkdir -p /raid/nfs
+
+# Настройка прав (замените подсети на ваши актуальные VLAN-сети HQ-CLI и BR-CLI)
+# Пример: 192.168.200.0/24 (HQ) и 192.168.0.0/24 (BR)
+echo "/raid/nfs 192.168.200.0/24(rw,sync,no_subtree_check) 192.168.0.0/24(rw,sync,no_subtree_check)" &gt;&gt; /etc/exports
+
+systemctl enable --now nfs-server</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+
+        <div class="step">
+          <h4>На клиентах (HQ-CLI и BR-CLI)</h4>
+          <p>Настройка автомонтирования через <code class="inline">/etc/fstab</code>:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>mkdir -p /mnt/nfs
+echo "&lt;IP_HQ-SRV&gt;:/raid/nfs /mnt/nfs nfs defaults,_netdev 0 0" &gt;&gt; /etc/fstab
+mount -a</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+      </article>
+
+      <!-- ---------- T15 ---------- -->
+      <article class="card" id="m2-t15">
+        <h3><span class="ico">⏰</span> Задание 15. Служба времени Chrony <span class="badge green">ISP</span></h3>
+
+        <div class="step">
+          <h4>Настройка сервера (ISP)</h4>
+          <p>Редактируем <code class="inline">/etc/chrony.conf</code>:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code># Вышестоящий сервер (на выбор)
+server pool.ntp.org iburst
+
+# Разрешаем подключение клиентов из сетей инфраструктуры
+allow 172.16.1.0/28
+allow 172.16.2.0/28
+# Если туннели настроены, можно разрешить внутренние подсети HQ и BR,
+# либо указать конкретные IP:
+allow 192.168.0.0/16
+
+# Принудительно выставляем стратум 5
+local stratum 5</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="codeblock" style="margin-top:14px;">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>systemctl restart chronyd</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+
+        <div class="step">
+          <h4>Настройка клиентов (HQ-SRV, HQ-CLI, BR-RTR, BR-SRV, BR-CLI)</h4>
+          <p>В конфигурационном файле NTP/Chrony каждого клиента прописать:</p>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>server &lt;IP_ISP&gt; iburst</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="note">
+            <span class="label">Пояснение</span>
+            Перезапустить службу времени: <code class="inline">systemctl restart chronyd</code>.
+          </div>
+        </div>
+      </article>
+
+      <!-- ---------- T16 ---------- -->
+      <article class="card" id="m2-t16">
+        <h3><span class="ico">🤖</span> Задание 16. Конфигурация Ansible <span class="badge blue">BR-SRV</span></h3>
+
+        <div class="codeblock">
+          <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <pre><code>apt-get install -y ansible
+mkdir -p /etc/ansible</code></pre>
+        </div>
+        <p class="code-note">Используйте код с осторожностью.</p>
+
+        <p style="margin-top:16px;">Создаём файл инвентаря <code class="inline">/etc/ansible/hosts</code>:</p>
+        <div class="codeblock">
+          <div class="codeblock__head"><span class="lang">ini</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <pre><code>[infrastructure]
+hq_srv ansible_host=&lt;IP_HQ-SRV&gt;
+hq_cli ansible_host=&lt;IP_HQ-CLI&gt;
+hq_rtr ansible_host=&lt;IP_HQ-RTR&gt;
+br_rtr ansible_host=&lt;IP_BR-RTR&gt;
+br_cli ansible_host=&lt;IP_BR-CLI&gt;
+
+[all:vars]
+ansible_user=net_admin   # или sshuser в зависимости от настроек ключей SSH
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'</code></pre>
+        </div>
+        <p class="code-note">Используйте код с осторожностью.</p>
+
+        <p style="margin-top:16px;">Проверка связи (pong без предупреждений):</p>
+        <div class="codeblock">
+          <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <pre><code>ansible all -m ping -i /etc/ansible/hosts</code></pre>
+        </div>
+        <p class="code-note">Используйте код с осторожностью.</p>
+      </article>
+
+      <!-- ---------- T17 ---------- -->
+      <article class="card" id="m2-t17">
+        <h3><span class="ico">🐳</span> Задание 17. Веб-приложение в Docker <span class="badge blue">BR-SRV</span></h3>
+
+        <div class="step">
+          <h4>1. Импорт образов из Additional.iso</h4>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>mount /dev/sr0 /media        # или другой путь монтирования ISO
+cd /media/docker
+docker load -i site_latest.tar
+docker load -i mariadb_latest.tar</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+
+        <div class="step">
+          <h4>2. Создание файла docker-compose.yml</h4>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">yaml</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>version: '3.8'
+
+services:
+  db:
+    image: mariadb:latest      # укажите точный тег импортированного образа
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: test
+      MYSQL_PASSWORD: P@ssw0rd
+      MYSQL_ROOT_PASSWORD: RootP@ssw0rd
+    volumes:
+      - db_data:/var/lib/mysql
+
+  testapp:
+    image: site:latest         # укажите точный тег импортированного образа
+    container_name: testapp
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: db
+      DB_NAME: testdb
+      DB_USER: test
+      DB_PASS: P@ssw0rd
+    depends_on:
+      - db
+
+volumes:
+  db_data:</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="codeblock" style="margin-top:14px;">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>docker compose up -d</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+      </article>
+
+      <!-- ---------- T18 ---------- -->
+      <article class="card" id="m2-t18">
+        <h3><span class="ico">🌐</span> Задание 18. Веб-приложение Apache + MariaDB <span class="badge blue">HQ-SRV</span></h3>
+
+        <div class="codeblock">
+          <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <pre><code>apt-get install -y apache2 mariadb-server php php-mysqlnd
+systemctl enable --now httpd maridb
+
+# Импорт БД
+mysql -u root -e "CREATE DATABASE webdb;"
+mysql -u root webdb &lt; /media/web/dump.sql
+
+# Создание пользователя
+mysql -u root -e "CREATE USER 'web'@'localhost' IDENTIFIED BY 'P@ssw0rd';"
+mysql -u root -e "GRANT ALL PRIVILEGES ON webdb.* TO 'web'@'localhost'; FLUSH PRIVILEGES;"
+
+# Копирование файлов
+cp -r /media/web/index.php /media/web/images /var/www/html/
+chown -r apache:apache /var/www/html/
+
+# Редактирование параметров подключения к БД в /var/www/html/index.php
+# Указать: host=localhost, dbname=webdb, user=web, password=P@ssw0rd
+
+systemctl restart httpd</code></pre>
+        </div>
+        <p class="code-note">Используйте код с осторожностью.</p>
+      </article>
+
+      <!-- ---------- T19 ---------- -->
+      <article class="card" id="m2-t19">
+        <h3><span class="ico">🔀</span> Задание 19. Статическая трансляция портов (DNAT)</h3>
+        <p class="sub">На EcoRouter / Linux.</p>
+
+        <p>Если роутеры на базе EcoRouterOS (пример синтаксиса):</p>
+        <div class="codeblock">
+          <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <pre><code># На BR-RTR:
+ip nat destination static bottom 172.16.2.1 tcp 8080 &lt;IP_BR-SRV&gt; 8080
+ip nat destination static bottom 172.16.2.1 tcp 2026 &lt;IP_BR-SRV&gt; 2026
+
+# На HQ-RTR:
+ip nat destination static bottom 172.16.1.1 tcp 8080 &lt;IP_HQ-SRV&gt; 8080
+ip nat destination static bottom 172.16.1.1 tcp 2026 &lt;IP_HQ-SRV&gt; 2026</code></pre>
+        </div>
+        <p class="code-note">Используйте код с осторожностью.</p>
+      </article>
+
+      <!-- ---------- T20-21 ---------- -->
+      <article class="card" id="m2-t20">
+        <h3><span class="ico">🔄</span> Задания 20 и 21. Nginx как Reverse Proxy + Basic Auth <span class="badge green">ISP</span></h3>
+
+        <div class="step">
+          <h4>1. Генерация пароля для Basic Auth (Задание 21)</h4>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>apt-get install -y apache2-utils    # содержит утилиту htpasswd
+htpasswd -bc /etc/nginx/.htpasswd WEB P@ssw0rd</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+
+        <div class="step">
+          <h4>2. Конфигурация Nginx (/etc/nginx/nginx.conf или conf.d/proxy.conf)</h4>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">nginx</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code># Прокси для web.au-team.irpo -&gt; HQ-SRV
+server {
+    listen 80;
+    server_name web.au-team.irpo;
+
+    location / {
+        auth_basic "Restricted Access";
+        auth_basic_user_file /etc/nginx/.htpasswd;
+
+        proxy_pass http://&lt;Внешний_IP_HQ-RTR&gt;:8080;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+# Прокси для docker.au-team.irpo -&gt; BR-SRV (Docker)
+server {
+    listen 80;
+    server_name docker.au-team.irpo;
+
+    location / {
+        # Здесь аутентификация по условию не требуется
+        proxy_pass http://&lt;Внешний_IP_BR-RTR&gt;:8080;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="codeblock" style="margin-top:14px;">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>systemctl enable --now nginx</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+      </article>
+
+      <!-- ---------- T22 ---------- -->
+      <article class="card" id="m2-t22">
+        <h3><span class="ico">🌍</span> Задание 22. Установка Яндекс Браузера <span class="badge amber">HQ-CLI</span></h3>
+
+        <p>Скачайте .rpm пакет или установите его через подключённый репозиторий:</p>
+        <div class="codeblock">
+          <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <pre><code># Прямая установка локального rpm-пакета
+apt-get install -y /path/to/yandex-browser-stable*.rpm
+
+# Или через eepm (фирменную утилиту ALT для стороннего софта)
+epm play yandex-browser</code></pre>
+        </div>
+        <p class="code-note">Используйте код с осторожностью.</p>
+      </article>
+    </section>
+
+    <!-- =========================================================
+         МОДУЛЬ 3
+    ========================================================== -->
+    <section class="module" id="module3">
+      <div class="module-head">
+        <span class="module-num">МОДУЛЬ 3</span>
+        <h2>Продвинутые сервисы и безопасность</h2>
+      </div>
+
+      <!-- ---------- 1 ---------- -->
+      <article class="card" id="m3-1">
+        <h3><span class="ico">🧑‍🤝‍🧑</span> 1. Импорт пользователей в домен <span class="badge blue">BR-SRV</span></h3>
+        <p class="sub">Массовый импорт пользователей из файла users.csv (в ISO-образе) в Samba Active Directory.</p>
+
+        <div class="note">
+          <span class="label">Пояснение</span>
+          Используется скрипт на bash или встроенный инструмент <code class="inline">samba-tool</code>. Пример обработки <code class="inline">users.csv</code> (разделитель <code class="inline">,</code>, структура: username, password, firstname, lastname).
+        </div>
+
+        <div class="codeblock">
+          <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <pre><code># Монтируем ISO и переходим к файлу
+mount /dev/sr0 /media
+cd /media
+
+# Читаем CSV и импортируем пользователей в Samba DC
+tail -n +2 users.csv | while IFS=',' read -r username password firstname lastname; do
+  samba-tool user create "$username" "$password" --given-name="$firstname" --surname="$lastname" --use-username-as-samantha
+done</code></pre>
+        </div>
+        <p class="code-note">Используйте код с осторожностью.</p>
+      </article>
+
+      <!-- ---------- 2 ---------- -->
+      <article class="card" id="m3-2">
+        <h3><span class="ico">🔒</span> 2. Центр сертификации ГОСТ и HTTPS <span class="badge blue">HQ-SRV</span> <span class="badge green">ISP</span></h3>
+
+        <div class="step">
+          <h4>Настройка CA с ГОСТ-алгоритмами на HQ-SRV</h4>
+          <div class="note">
+            <span class="label">Пояснение</span>
+            ALT Linux использует пакеты <code class="inline">openssl-gost-engine</code>. Корректируем <code class="inline">/etc/openssl.cnf</code> для включения ГОСТ-провайдера.
+          </div>
+
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code># Генерация корневого закрытого ключа и сертификата ГОСТ на 30 дней
+openssl req -newkey gost2012_256 -nodes -keyout ca.key -x509 -days 30 -out ca.crt -subj "/C=RU/O=au-team/CN=AU-TEAM Root CA"
+
+# Экспорт корневого сертификата на клиенты (HQ-CLI) для обеспечения доверия
+cp ca.crt /usr/share/ca-certificates/trust-source/anchors/
+update-ca-trust</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+
+        <div class="step">
+          <h4>Выпуск сертификатов для веб-серверов</h4>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code># Для web.au-team.irpo
+openssl req -newkey gost2012_256 -nodes -keyout web.key -out web.csr -subj "/C=RU/O=au-team/CN=web.au-team.irpo"
+openssl x509 -req -in web.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out web.crt -days 30
+
+# Для docker.au-team.irpo
+openssl req -newkey gost2012_256 -nodes -keyout docker.key -out docker.csr -subj "/C=RU/O=au-team/CN=docker.au-team.irpo"
+openssl x509 -req -in docker.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out docker.crt -days 30</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+
+        <div class="step">
+          <h4>Перенастройка Nginx Reverse Proxy на HTTPS <span class="badge green">ISP</span></h4>
+          <p>Копируем выпущенные ключи/сертификаты на ISP и правим <code class="inline">/etc/nginx/conf.d/proxy.conf</code>:</p>
+
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">nginx</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>server {
+    listen 443 ssl;
+    server_name web.au-team.irpo;
+
+    ssl_certificate /etc/nginx/ssl/web.crt;
+    ssl_certificate_key /etc/nginx/ssl/web.key;
+
+    location / {
+        auth_basic "Restricted Access";
+        auth_basic_user_file /etc/nginx/.htpasswd;
+        proxy_pass http://&lt;IP_HQ-SRV&gt;:80;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name docker.au-team.irpo;
+
+    ssl_certificate /etc/nginx/ssl/docker.crt;
+    ssl_certificate_key /etc/nginx/ssl/docker.key;
+
+    location / {
+        proxy_pass http://&lt;IP_BR-SRV&gt;:8080;
+    }
+}</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+      </article>
+
+      <!-- ---------- 3 ---------- -->
+      <article class="card" id="m3-3">
+        <h3><span class="ico">🛜</span> 3. Защищённый IPsec-туннель <span class="badge violet">HQ-RTR и BR-RTR</span></h3>
+
+        <div class="note">
+          <span class="label">Пояснение</span>
+          На устройствах под управлением EcoRouterOS перенастраиваем базовый GRE/IP in IP туннель в шифрованный режим.
+        </div>
+
+        <div class="codeblock">
+          <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <pre><code># Пример конфигурации на HQ-RTR (на BR-RTR зеркально)
+crypto ikev2 policy IKE-POLICY
+ encryption aes-256
+ integrity sha256
+ group 14
+exit
+
+crypto ikev2 profile IKE-PROFILE
+ match identity remote address &lt;Внешний_IP_BR-RTR&gt;
+ identity local address &lt;Внешний_IP_HQ-RTR&gt;
+ authentication local pre-shared-key P@ssw0rdTunnel
+ authentication remote pre-shared-key P@ssw0rdTunnel
+exit
+
+crypto ipsec transform-set ESP-SET esp-aes-256 esp-sha256-hmac
+ mode tunnel
+exit
+
+crypto ipsec profile IPSEC-PROFILE
+ set transform-set ESP-SET
+ set ikev2-profile IKE-PROFILE
+exit
+
+# Привязка к интерфейсу туннеля
+interface tunnel0
+ tunnel protection ipsec profile IPSEC-PROFILE
+exit</code></pre>
+        </div>
+        <p class="code-note">Используйте код с осторожностью.</p>
+
+        <div class="note">
+          <span class="label">Пояснение</span>
+          Убедитесь, что протокол динамической маршрутизации (OSPF/RIP) привязан к интерфейсу <code class="inline">tunnel0</code>.
+        </div>
+      </article>
+
+      <!-- ---------- 4 ---------- -->
+      <article class="card" id="m3-4">
+        <h3><span class="ico">🧱</span> 4. Межсетевой экран <span class="badge violet">HQ-RTR и BR-FW / Ideco</span></h3>
+
+        <div class="step">
+          <h4>На HQ-RTR (EcoRouter)</h4>
+          <p>Создаём списки доступа (ACL), разрешающие только легитимный трафик (HTTP, HTTPS, DNS, NTP, ICMP):</p>
+
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>ip access-list extended M2_FIREWALL
+ permit tcp any any eq 80
+ permit tcp any any eq 443
+ permit udp any any eq 53
+ permit udp any any eq 123
+ permit icmp any any
+ deny ip any any
+exit
+
+interface ge0        # внешний интерфейс к ISP
+ ip access-list M2_FIREWALL in
+exit</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+      </article>
+
+      <!-- ---------- 5 ---------- -->
+      <article class="card" id="m3-5">
+        <h3><span class="ico">🖨</span> 5. Принт-сервер CUPS <span class="badge blue">HQ-SRV</span> <span class="badge amber">HQ-CLI</span></h3>
+
+        <div class="step">
+          <h4>На сервере (HQ-SRV)</h4>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>apt-get install -y cups cups-filters
+systemctl enable --now cups
+
+# Разрешаем доступ из сети в /etc/cups/cupsd.conf
+# Измените "Listen localhost:631" на "Port 631"
+# Добавьте "&lt;Location /&gt; Order allow,deny \n Allow 192.168.0.0/16 &lt;/Location&gt;"
+
+# Добавление виртуального PDF-принтера
+lpadmin -p PDF-Printer -E -v cups-pdf:/ -m raw</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+
+        <div class="step">
+          <h4>На клиенте (HQ-CLI)</h4>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>lpadmin -p HQ-PDF-Printer -E -v ipp://&lt;IP_HQ-SRV&gt;:631/printers/PDF-Printer
+lpoptions -d HQ-PDF-Printer    # Делаем принтером по умолчанию</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+      </article>
+
+      <!-- ---------- 6 ---------- -->
+      <article class="card" id="m3-6">
+        <h3><span class="ico">📜</span> 6. Сервер логирования Syslog + ротация <span class="badge blue">HQ-SRV</span></h3>
+
+        <div class="step">
+          <h4>На сервере (HQ-SRV)</h4>
+          <p>Используем <code class="inline">rsyslog</code>. Правим <code class="inline">/etc/rsyslog.conf</code> (раскомментируем UDP-модуль на порту 514):</p>
+
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>$ModLoad imudp
+$UDPServerRun 514
+
+# Шаблон динамического распределения папок по имени хоста (исключая localhost)
+$template RemoteLogs,"/opt/%HOSTNAME%/%PROGRAMNAME%.log"
+if $fromhost-ip != '127.0.0.1' and $syslogseverity &lt;= 4 then ?RemoteLogs
+&amp; stop</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+
+          <div class="codeblock" style="margin-top:14px;">
+            <div class="codeblock__head"><span class="lang">bash</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>systemctl restart rsyslog</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+
+        <div class="step">
+          <h4>Настройка ротации логов (/etc/logrotate.d/syslog-opt)</h4>
+          <div class="codeblock">
+            <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+            <pre><code>/opt/*/*.log {
+    weekly
+    size 10M
+    compress
+    missingok
+    notifempty
+    sharedscripts
+    postrotate
+        /bin/kill -HUP `cat /var/run/rsyslogd.pid 2&gt; /dev/null` 2&gt; /dev/null || true
+    endscript
+}</code></pre>
+          </div>
+          <p class="code-note">Используйте код с осторожностью.</p>
+        </div>
+      </article>
+
+      <!-- ---------- 7 ---------- -->
+      <article class="card" id="m3-7">
+        <h3><span class="ico">📊</span> 7. Мониторинг Zabbix в контейнере <span class="badge blue">HQ-SRV</span></h3>
+
+        <p>Разворачиваем стек Zabbix через Docker Compose на порту 80 (или другом свободном):</p>
+
+        <div class="codeblock">
+          <div class="codeblock__head"><span class="lang">yaml</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <pre><code>version: '3.5'
+
+services:
+  zabbix-db:
+    image: mariadb:latest
+    environment:
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: P@ssw0rd
+      MYSQL_ROOT_PASSWORD: RootP@ssw0rd
+
+  zabbix-server:
+    image: zabbix/zabbix-server-mysql:latest
+    ports:
+      - "10051:10051"
+    environment:
+      DB_SERVER_HOST: zabbix-db
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: P@ssw0rd
+
+  zabbix-web:
+    image: zabbix/zabbix-web-nginx-mysql:latest
+    ports:
+      - "80:8080"       # Внешний порт 80 для mon.au-team.irpo
+    environment:
+      DB_SERVER_HOST: zabbix-db
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: P@ssw0rd
+      ZBX_SERVER_HOST: zabbix-server</code></pre>
+        </div>
+        <p class="code-note">Используйте код с осторожностью.</p>
+
+        <div class="note">
+          <span class="label">Пояснение</span>
+          <ul>
+            <li><strong>DNS:</strong> в локальный <code class="inline">/etc/hosts</code> или на локальном DNS-сервере прописать <code class="inline">mon.au-team.irpo</code> → <code class="inline">&lt;IP_HQ-SRV&gt;</code>.</li>
+            <li><strong>Доступ:</strong> учётные данные по умолчанию меняются в UI на <code class="inline">admin / P@ssw0rd</code>. Добавить шаблоны ОС Linux (через zabbix-agent на HQ-SRV и BR-SRV) для метрик CPU, RAM, Disk.</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- ---------- 8 ---------- -->
+      <article class="card" id="m3-8">
+        <h3><span class="ico">🤖</span> 8. Инвентаризация через Ansible Playbook <span class="badge blue">BR-SRV</span></h3>
+
+        <p>Создаём плейбук <code class="inline">/etc/ansible/get_info.yml</code> на базе файла из Additional.iso:</p>
+
+        <div class="codeblock">
+          <div class="codeblock__head"><span class="lang">yaml</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <pre><code>---
+- name: Сбор инвентаризационных данных
+  hosts: hq_srv, hq_cli
+  gather_facts: yes
+  tasks:
+    - name: Создание структуры каталога отчетов
+      file:
+        path: /etc/ansible/PC-INFO
+        state: directory
+      delegate_to: localhost
+
+    - name: Генерация YAML-отчета
+      template:
+        src: report.yml.j2
+        dest: "/etc/ansible/PC-INFO/{{ ansible_hostname }}.yml"
+      delegate_to: localhost</code></pre>
+        </div>
+        <p class="code-note">Используйте код с осторожностью.</p>
+
+        <p style="margin-top:16px;">Шаблон <code class="inline">report.yml.j2</code>:</p>
+        <div class="codeblock">
+          <div class="codeblock__head"><span class="lang">jinja</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <pre><code>Hostname: "{{ ansible_hostname }}"
+IP_Address: "{{ ansible_default_ipv4.address }}"</code></pre>
+        </div>
+        <p class="code-note">Используйте код с осторожностью.</p>
+      </article>
+
+      <!-- ---------- 9 ---------- -->
+      <article class="card" id="m3-9">
+        <h3><span class="ico">🔨</span> 9. Защита SSH от подбора паролей через PAM <span class="badge blue">HQ-SRV</span></h3>
+
+        <div class="note">
+          <span class="label">Пояснение</span>
+          ALT Linux использует модуль <code class="inline">pam_tally2</code> или <code class="inline">pam_faillock</code>. Настройка <code class="inline">/etc/pam.d/sshd</code>.
+        </div>
+
+        <div class="codeblock">
+          <div class="codeblock__head"><span class="lang">text</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <pre><code># Добавляем в начало секции auth:
+auth required pam_faillock.so preauth silent audit deny=3 unlock_time=60
+auth [default=die] pam_faillock.so authfail audit deny=3 unlock_time=60
+
+# Добавляем в начало секции account:
+account required pam_faillock.so</code></pre>
+        </div>
+        <p class="code-note">Используйте код с осторожностью.</p>
+      </article>
+
+      <!-- ---------- 10 ---------- -->
+      <article class="card" id="m3-10">
+        <h3><span class="ico">💾</span> 10. Резервное копирование «Кибер Бэкап» <span class="badge blue">HQ-SRV</span> <span class="badge amber">HQ-CLI</span></h3>
+
+        <ol>
+          <li>
+            <strong>Сервер управления:</strong> устанавливаем <code class="inline">CyberBackupServer-*.rpm</code> на HQ-SRV. Создаём в системе пользователя <code class="inline">irpoadmin</code> и задаём пароль <code class="inline">P@ssw0rd</code>. Заводим его в веб-консоли управления организацией <code class="inline">irpo</code>.
+          </li>
+          <li>
+            <strong>Узел хранения:</strong> на HQ-CLI устанавливаем Агент и Компонент узла хранения (<code class="inline">CyberBackupAgentStorage-*.rpm</code>).
+          </li>
+          <li>
+            <strong>Устройство хранения:</strong> через веб-интерфейс подключаем узел HQ-CLI, инициализируем локальную директорию <code class="inline">/backup</code>.
+          </li>
+          <li>
+            <strong>Планы резервного копирования:</strong>
+            <ul>
+              <li><strong>План 1 (Файловый):</strong> источник — папка <code class="inline">/etc</code>, назначение — узел хранения HQ-CLI.</li>
+              <li><strong>План 2 (Скриптовый/Приложения):</strong> предварительно настраивается дамп базы <code class="inline">mysqldump -u root webdb &gt; /var/backup/dump.sql</code>, и бэкапится полученный файл, либо используется встроенный модуль защиты приложений MySQL.</li>
+            </ul>
+          </li>
+        </ol>
+      </article>
+    </section>
+
+  </main>
+</div>
+
+<button class="to-top" id="toTop" aria-label="Наверх">↑</button>
+
+<script>
+  // ---------- Кнопка "наверх" ----------
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', () => {
+    toTop.classList.toggle('show', window.scrollY > 400);
+  });
+  toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+  // ---------- Подсветка активного пункта меню ----------
+  const links = Array.from(document.querySelectorAll('.sidebar a[href^="#"]'));
+  const targets = links
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+      }
+    });
+  }, { rootMargin: '-10% 0px -75% 0px', threshold: 0 });
+
+  targets.forEach(t => observer.observe(t));
+
+  // ---------- Плавная прокрутка ----------
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const el = document.querySelector(link.getAttribute('href'));
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', link.getAttribute('href'));
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
